@@ -4,42 +4,38 @@ var result={};
 var Obj = {};
 
 function csvfiles(data , result){
-
-  var myobj=[];
-
   fs.readFileSync(data).toString().split('\n').forEach(function (lineContent) {
     var line = lineContent.split(",");
 //console.log(line);
     var statename = line[3];
-//console.log(statename);
-    if(!myobj[statename]){
+
           if(Obj[statename] != null){
 
         var state = Obj[statename];
-
+        // console.log("if");
         state.illiterateMales= +state.illiterateMales + +line[10];
         state.illiterateFemales= +state.illiterateFemales + +line[11];
         state.literateMales= +state.literateMales + +line[13];
         state.literateFemales= +state.literateFemales + +line[14];
- // console.log(state);
+  // console.log(state);
       }else{
         var tempArray = {};
-
+        // console.log("else");
         tempArray["illiterateMales" ]= line[10];
         tempArray["illiterateFemales" ]= line[11];
         tempArray["literateMales"]= line[13];
         tempArray["literateFemales"]= line[14];
- // console.log(tempArray);
+  //console.log(tempArray);
         Obj[statename] = tempArray;
 
       }
-}
+
   });
 
 }
-csvfiles("includes/css/India2011.csv" , Obj);
-csvfiles("includes/css/IndiaSC2011.csv" ,Obj);
-csvfiles("includes/css/IndiaST2011.csv" ,Obj);
+csvfiles("India2011.csv" , Obj);
+csvfiles("IndiaSC2011.csv" ,Obj);
+csvfiles("IndiaST2011.csv" ,Obj);
 
 //removes the items
 delete Obj["Area Name"];
@@ -59,12 +55,13 @@ function TotalLiteracy(Obj){
   for(var i in Obj){
 
     var value = Obj[i];
-
+ //console.log(Obj[i]);
+ //first json
     literateMales += value.literateMales;
     illiterateMales += value.illiterateMales;
     literateFemales += value.literateFemales;
     illiterateFemales += value.illiterateFemales;
-
+//second json
     if(neStates.indexOf(i) != -1){
       neLiterateFemales += value.literateFemales;
       neIlliterateFemales +=value.illiterateFemales;
@@ -72,7 +69,7 @@ function TotalLiteracy(Obj){
       neIlliterateMales += value.illiterateMales;
 
     }
-
+//third json
     var literate_Illetrate = {};
     literate_Illetrate.statename = i;
     literate_Illetrate.totalLiterate = value.literateMales + value.literateFemales;
@@ -93,27 +90,7 @@ function TotalLiteracy(Obj){
 
 }
 TotalLiteracy(Obj);
- fs.writeFileSync('includes/js/first.json',JSON.stringify(firstrequirment,null,2),'utf8');
- fs.writeFileSync('includes/js/second.json',JSON.stringify(secondrequirment,null,2),'utf8');
- fs.writeFileSync('includes/js/third.json',JSON.stringify(stateWiseComparision,null,2),'utf8');
 
-
-  // fs.writeFileSync('.json',JSON.stringify(Obj,null,2),'utf8');
-  //  fs.writeFileSync('requirment.json',JSON.stringify(Obj,null,2),'utf8');
-// fs.writeFile('includes/total-literacy-resource.json', JSON.stringify(totalLiteracyObj), function (err) {
-//   if (err) throw err;
-//
-//   console.log("Successfully generated Total Literacy file.");
-// });
-//
-// fs.writeFile('includes/northeastern-literacy-resource.json', JSON.stringify(neStatesLiteracyObj), function (err) {
-//   if (err) throw err;
-//
-//   console.log("Successfully generated NorthEastern Literacy file.");
-// });
-//
-// fs.writeFile('includes/third.json', JSON.stringify(stateWiseComparision), function (err) {
-//   if (err) throw err;
-//
-//   console.log("Successfully generated State-wise Literacy file.");
-// });
+ fs.writeFileSync('first.json',JSON.stringify(firstrequirment,null,2),'utf8');
+ fs.writeFileSync('second.json',JSON.stringify(secondrequirment,null,2),'utf8');
+ fs.writeFileSync('third.json',JSON.stringify(stateWiseComparision,null,2),'utf8');

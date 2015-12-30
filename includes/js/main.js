@@ -12,13 +12,14 @@ function csvfiles(data , result){
           if(Obj[statename] != null){
 
         var state = Obj[statename];
-        // console.log("if");
+      // console.log("if");
         state.illiterateMales= +state.illiterateMales + +line[10];
         state.illiterateFemales= +state.illiterateFemales + +line[11];
         state.literateMales= +state.literateMales + +line[13];
         state.literateFemales= +state.literateFemales + +line[14];
-  // console.log(state);
-      }else{
+    // console.log(state);
+     }
+     else{
         var tempArray = {};
         // console.log("else");
         tempArray["illiterateMales" ]= line[10];
@@ -31,7 +32,6 @@ function csvfiles(data , result){
       }
 
   });
-
 }
 csvfiles("India2011.csv" , Obj);
 csvfiles("IndiaSC2011.csv" ,Obj);
